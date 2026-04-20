@@ -1,3 +1,11 @@
+
+flaskapp.py
+
+Page
+1
+/
+1
+100%
 import pickle
 import pandas as pd
 import numpy as np
@@ -15,27 +23,23 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     # Get form data
-    age = float(request.form["age"])
-    sex = 1 if request.form["sex"] == "male" else 0
-    bmi = float(request.form["bmi"])
-    children = int(request.form["children"])
-    smoker = 1 if request.form["smoker"] == "no" else 0
-    region = int(request.form["region"])
+    hrs_studied = float(request.form["hrs_studied"])
+    prev_score = float(request.form["prev_score"])
+    sleep = float(request.form["sleep"])
+    sample_practiced = int(request.form["sample_practiced"])
+    extra_curr = 1 if request.form["extra_curr"].lower() == "yes" else 0
 
     # Prepare features for prediction
-    #features = np.array([[age, sex, bmi, children, smoker, region]])
-    feature_names = ["age", "sex", "bmi", "children", "smoker", "region"]
-    features = pd.DataFrame([[age, sex, bmi, children, smoker, region]], columns=feature_names)
+    feature_names = ["hrs_Studied", "prev_score", "sleep", "sample_practiced", "extra_Curr"]
+    features = pd.DataFrame([[hrs_studied, prev_score, sleep, sample_practiced, extra_curr]], columns=feature_names)
 
-    # Predict charges
+    # Predict result
     prediction = model.predict(features)
-    #  Format to float and 2 decimal places
-    formatted_prediction = f"The predicted value is ${round(float(prediction), 2)}"
-
+    formatted_prediction = f"The predicted result is {round(float(prediction[0]), 2)}"
 
     return render_template("result.html", prediction=formatted_prediction)
 
 
 if __name__ == "__main__":
-    app.run(debug=True,host='0.0.0.0')
-
+    app.run(debug=True, host='0.0.0.0')
+Displaying flaskapp.py.
